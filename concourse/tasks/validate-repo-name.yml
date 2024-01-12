@@ -1,0 +1,24 @@
+---
+platform: linux
+
+image_resource:
+    type: registry-image
+    source:
+        repository: ((GH_container_name))
+        tag: latest
+        username: ((registry-pull-username))
+        password: ((registry-pull-token))
+inputs:
+    - name: repo-info
+   
+params:
+    folder_name: ((folder_name))
+    unit: ((unit))
+    
+run:
+    path: sh
+    args:
+      - -exc
+      - |
+         chmod +x Github-Automation/concourse/scripts/validate-repo-name.sh
+         ./Github-Automation/concourse/scripts/validate-repo-name.sh

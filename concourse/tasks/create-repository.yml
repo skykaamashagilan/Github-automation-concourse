@@ -1,0 +1,25 @@
+---
+platform: linux
+
+image_resource:
+    type: registry-image
+    source:
+        repository: ((GH_container_name))
+        tag: latest
+        username: ((registry-pull-username))
+        password: ((registry-pull-token))
+inputs:
+    - name: repo-info
+   
+params:
+    key: ((key))
+    pub_key: ((pub_key))
+    repo: ((repo))
+    
+run:
+    path: sh
+    args:
+      - -exc
+      - |
+         chmod +x Github-Automation/concourse/scripts/create-repository.sh
+         ./Github-Automation/concourse/scripts/create-repository.sh

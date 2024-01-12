@@ -1,0 +1,85 @@
+---
+resource_types:
+  - name: metadata
+    type: registry-image
+    source:
+      repository: olhtbr/metadata-resource
+      tag: 2.0.1
+
+
+# Use YAML anchors to keep us DRY in our Tasks/Jobs
+git_resource_params: &git_resource_params
+  branch: ((branch_name))
+  username: ((github_username))
+  password: ((github_pat))
+
+
+load_common_build_vars: &load_common_build_vars
+  - load_var: pipeline-name
+    file: collect-data/build_pipeline_name
+    reveal: true
+  - load_var: job-name
+    file: collect-data/build_job_name
+    reveal: true
+  - load_var: build-name
+    file: collect-data/build_name
+    reveal: true
+  - load_var: team-name
+    file: collect-data/build_team_name
+    reveal: true
+
+common_task_params: &common_task_params  # These Task params are common to all our Bootstrap/Baseline Tasks
+  google_credentials: ((gcp_automation_read_only_sky_uk))
+  access_key: ((access_key))
+  secret_key: ((secret_key))
+  github_username_encoded: ((github_username_encoded))
+  github_pat: ((github_pat))
+  branch_name: ((branch_name))
+  bucket_name: ((bucket_name))
+  role_name: ((terraform_role_name))
+  master_payer_id: ((master_payer_id))
+
+GH_go_container_vars: &GH_go_container_vars
+  GH_go_container_name: ((go_custom_image))
+  GH_go_container_tag: ((go_custom_image_tag))
+
+
+resources:
+- name: repo-info
+  type: mock
+  source:
+    create_files:
+      repo.json: |
+        {
+          "name": "new-repo",
+          "description": "A new GITHUB repository created by Concourse",
+          "private": true
+        }
+
+
+jobs:
+  - name: Github-automation
+    serial: true  
+    plan:
+      - in_parallel:
+        - get: repo-info
+          trigger: true
+        - put: collect-data
+        - task: validate-repo-name
+      - in_parallel:
+          *load_common_build_vars
+      - across:
+        - max_in_flight: 10
+        do:
+          - task: validate-repo-name
+            file: Github-Automation/concourse/tasks/validate-repo-name.yml
+            vars:
+              <<: *GH_go_container_vars
+              params:
+              <<: *common_task_params
+          - task: create-repository
+            file: Github-Automation/concourse/tasks/create-repository.yml
+            vars:
+              <<: *GH_go_container_vars
+              params:
+              <<: *common_task_params

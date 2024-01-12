@@ -1,0 +1,51 @@
+---
+bucket_name: "cec-azure-governance-tf-state-prod"  # The name of GCS Bucket where we store the Terraform State
+branch_name: "main"  # The name of the branch that contains the source Terraform code. Test :: test. Prod :: main.
+environment: "prod"
+
+# Param values for the custom image
+custom_image: registry.cloud.sky/cec/azure_slingshot
+go_custom_image: registry.cloud.sky/cec/slingshot_go_cli
+registry_username: ((registry-pull-username))
+registry_password: ((registry-pull-token))
+
+google_credentials: ((gcp_automation_read_only_sky_uk))
+code_commit_repo_name: azure-subscription-creation-prod
+code_commit_access_key: ((account-factory-prod-code-commit-username))
+code_commit_secret_key: ((account-factory-prod-code-commit-password))
+
+# Vars required for the Azure vending TF
+ARM_CLIENT_ID: "8bb5f492-d3b9-4d26-92c1-1afce27aaacf"
+ARM_CLIENT_SECRET: ((azure_slingshot_spn))
+ARM_SUBSCRIPTION_ID: "b2497ee0-8231-4b6c-a299-7086ed25f074"
+ARM_TENANT_ID: "68b865d5-cf18-4b2b-82a4-a4eddb9c5237"
+
+# Vars required for Azure AD automation (Subscription RBAC)
+azure_ad_client_id: "597f7fa8-3b8d-46ba-af73-2e29563bc026"
+azure_ad_client_secret: ((azure_ad_client_secret))
+azure_ad_spn_object_id: "cb6bdb13-4da1-4cfd-8259-3a58e5b8d0aa"
+
+#Crowdstrike credentials
+cs_client_id: "((cs_client_id))"
+cs_client_secret: "((cs_client_secret))"
+
+# Logging Management subscription details
+management_subscription_id : "449743ac-23ef-4830-b648-5e853c447ff9"
+management_resourcegroup_name : "rg-mng-monitoring-001"
+management_eventhub_name : "evhub-01"
+
+
+# Cag Variables
+cag_endpoint: ((cag_endpoint_prod))
+cag_api_key: ((cag_api_key_prod))
+# cag_endpoint: ((cag_endpoint_stage))  # AC - Purposely pointing to UAT CAG for now whilst we get the alerts correct
+# cag_api_key: ((cag_api_key_stage))
+assign_to: UK CEC Slingshot
+# assign_to: UK Cloud Enablement Centre
+error_bucket_name: slingshot-pipeline-errors
+# go_custom_image_tag: slingshot_go_cli_v1
+go_custom_image_tag: slingshot_go_cli_v2
+
+\
+
+
