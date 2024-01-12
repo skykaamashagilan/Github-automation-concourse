@@ -10,10 +10,6 @@ image_resource:
         password: ((registry-pull-token))
 inputs:
     - name: repo-info
-   
-params:
-    folder_name: ((folder_name))
-    unit: ((unit))
     
 run:
     path: sh

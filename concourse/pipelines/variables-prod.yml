@@ -1,15 +1,13 @@
 ---
-bucket_name: "cec-azure-governance-tf-state-prod"  # The name of GCS Bucket where we store the Terraform State
-branch_name: "main"  # The name of the branch that contains the source Terraform code. Test :: test. Prod :: main.
+branch_name: "main"  # The name of the branch that contains the source code. Test :: test. Prod :: main.
 environment: "prod"
-
+folder-name: ????????
 # Param values for the custom image
 custom_image: registry.cloud.sky/cec/azure_slingshot
 go_custom_image: registry.cloud.sky/cec/slingshot_go_cli
 registry_username: ((registry-pull-username))
 registry_password: ((registry-pull-token))
 
-google_credentials: ((gcp_automation_read_only_sky_uk))
 code_commit_repo_name: azure-subscription-creation-prod
 code_commit_access_key: ((account-factory-prod-code-commit-username))
 code_commit_secret_key: ((account-factory-prod-code-commit-password))

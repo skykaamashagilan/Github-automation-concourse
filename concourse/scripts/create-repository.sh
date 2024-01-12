@@ -7,9 +7,9 @@ https://$github_username_encoded:$github_pat@github.com
 EOT
 
 # varaibles:
-key="github-$unit-$params-dk"
-pub_key="github-$unit-$params-dk.pub"
-
+key="github-$unit-$folder-dk"
+pub_key="github-$unit-$folder-dk.pub"
+repo="cec-azure-$unit-$folder-terraform"
 
 withAwsSecret([secret_id: "github/github-ita-cicdbot/token",type: "keyvalue"]) {
     export GH_TOKEN=$env.token

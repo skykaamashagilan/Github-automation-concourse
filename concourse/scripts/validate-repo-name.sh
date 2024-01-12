@@ -7,7 +7,7 @@ https://$github_username_encoded:$github_pat@github.com
 EOT
 
 # varaibles:
-folder=$folder_name
+
 repo_name="cec-azure-$unit-$folder-terraform"
 startswith="cec-azure-$unit"
 endswith="$folder-terraform"

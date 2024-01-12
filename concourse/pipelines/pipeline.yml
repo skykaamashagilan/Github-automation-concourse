@@ -29,20 +29,20 @@ load_common_build_vars: &load_common_build_vars
     reveal: true
 
 common_task_params: &common_task_params  # These Task params are common to all our Bootstrap/Baseline Tasks
-  google_credentials: ((gcp_automation_read_only_sky_uk))
   access_key: ((access_key))
   secret_key: ((secret_key))
   github_username_encoded: ((github_username_encoded))
   github_pat: ((github_pat))
   branch_name: ((branch_name))
-  bucket_name: ((bucket_name))
-  role_name: ((terraform_role_name))
   master_payer_id: ((master_payer_id))
 
 GH_go_container_vars: &GH_go_container_vars
   GH_go_container_name: ((go_custom_image))
   GH_go_container_tag: ((go_custom_image_tag))
 
+validate_repo_name_vars: &validate_repo_name_vars
+  unit: cec
+  folder: ((folder_name))
 
 resources:
 - name: repo-info
@@ -75,8 +75,11 @@ jobs:
             file: Github-Automation/concourse/tasks/validate-repo-name.yml
             vars:
               <<: *GH_go_container_vars
+              <<: *validate_repo_name_vars
               params:
               <<: *common_task_params
+
+
           - task: create-repository
             file: Github-Automation/concourse/tasks/create-repository.yml
             vars:
