@@ -8,16 +8,18 @@ EOT
 
 # varaibles:
 folder=$folder_name
-unit=$unit
-repo_name= "ita-jenkins-$unit-$folder-cicd"
-startswith= "ita-jenkins-$unit"
-endswith= "$folder-cicd"
+repo_name="cec-azure-$unit-$folder-terraform"
+startswith="cec-azure-$unit"
+endswith="$folder-terraform"
 
 # condition to check the repository naming conventions.
-if [[ $repo_name == "$startswith"* ]] && [[ $repo_name == *"$endswith" ]]; then
+if [[ $repo_name == "$startswith"* ]] && [[ $repo_name == *"$endswith" ]]
+then
     echo "You have inserted a valid name for repository"
+    exit 0
 else
     echo "Entered repository name is invalid"
+    exit 1
 fi
 
 printf '%*.0s\n' 50 "" | tr " " "#"
